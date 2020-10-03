@@ -7,6 +7,4 @@ import org.springframework.context.annotation.ComponentScan;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.bringglobal")
-public class WebConfig {
-
-}
+public class WebConfig {}
