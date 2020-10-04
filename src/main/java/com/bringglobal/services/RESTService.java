@@ -1,11 +1,11 @@
 package com.bringglobal.services;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import models.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,25 +13,27 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class RESTService {
 
+  @Autowired
+  private RestTemplate restTemplate;
+
   /**
    * Retrieves the transactions from the Open Bank Project
    * and maps the values to the <code><bold>Transactions Model</bold></code>
    * Throws Exception if the data structure received is unexpected
    * @return transactions
    */
-  public Optional<List<Transaction>> getTransactions() throws Exception {
-    RestTemplate restTemplate = new RestTemplate();
-    Object result = restTemplate.getForObject("https://apisandbox.openbankproject.com/obp/v1.2.1/banks/rbs/accounts/savings-kids-john/public/transactions", Object.class);
+  public Optional<List<Transaction>> getTransactions(final String url) throws Exception {
+    Object result = restTemplate.getForObject(url, Object.class);
 
     if (result instanceof Map) {
      try {
-       List<LinkedHashMap<String, Object>> rawTransactions = (List<LinkedHashMap<String, Object>>) ((Map) result).get("transactions");
+       List<Map<String, Object>> rawTransactions = (List<Map<String, Object>>) ((Map) result).get("transactions");
 
        List<Transaction> transactions = new ArrayList<>();
 
        rawTransactions.forEach(tr -> {
          Map<String, Object> otherAccount = (Map<String, Object>) tr.get("other_account");
-         Map<String, Object> details = (Map<String, Object>) tr.get("detils");
+         Map<String, Object> details = (Map<String, Object>) tr.get("details");
          Map<String, String> value = (Map<String, String>) details.get("value");
          Double amount = Double.parseDouble(value.get("amount"));
          String currency = value.get("currency");
@@ -55,6 +57,7 @@ public class RESTService {
 
        return Optional.of(transactions);
      } catch (Exception e) {
+       e.printStackTrace();
        throw new Exception("Unexpected response structure received from Open Bank Project API");
      }
     }

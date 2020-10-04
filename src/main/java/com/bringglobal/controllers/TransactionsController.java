@@ -25,6 +25,7 @@ public class TransactionsController {
   static {
     map.put("error", "Unexpected response structure received from Open Bank Project");
   }
+  private final String url = "https://apisandbox.openbankproject.com/obp/v1.2.1/banks/rbs/accounts/savings-kids-john/public/transactions";
 
   public TransactionsController(RESTService restService) {
     this.restService = restService;
@@ -34,7 +35,7 @@ public class TransactionsController {
   public Object getTransactions() {
 
     try {
-      return restService.getTransactions().orElse(Collections.EMPTY_LIST);
+      return restService.getTransactions(url).orElse(Collections.EMPTY_LIST);
     } catch (Exception e) {
      return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -44,7 +45,7 @@ public class TransactionsController {
   public Object getTransactionsPerType(@PathVariable final String type) {
     List<Transaction> transactions;
     try {
-      transactions = restService.getTransactions().orElse(Collections.EMPTY_LIST);
+      transactions = restService.getTransactions(url).orElse(Collections.EMPTY_LIST);
     } catch (Exception e) {
       return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
