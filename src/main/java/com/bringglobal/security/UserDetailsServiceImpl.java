@@ -1,10 +1,15 @@
 package com.bringglobal.security;
 
+import java.util.Collections;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public class UserDetailsServiceImpl implements CustomerService {
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
       return Constants.users.stream().filter(u -> u.getUsername().equalsIgnoreCase(username)).findFirst()
@@ -15,7 +20,7 @@ public class UserDetailsServiceImpl implements CustomerService {
           true,
           true,
           false,
-          user.getRole()
+          Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
     ))
         .orElse(null);
   }
