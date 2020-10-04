@@ -42,6 +42,14 @@ public class TransactionsController {
     }
   }
 
+  /**
+   * Gets a list all transactions of a certain transaction type.
+   * Returns an empty list if not matches
+   *
+   * @param type: String
+   *
+   * @return ResponseEntity
+   */
   @GetMapping("/{type}")
   public Object getTransactionsPerType(@PathVariable final String type) {
     List<Transaction> transactions;
@@ -55,6 +63,14 @@ public class TransactionsController {
      .filter(tr -> tr.getTransactionType().equalsIgnoreCase(type)).collect(Collectors.toList());
   }
 
+  /**
+   * Gets total amount transacted per transaction type.
+   * If the amounts add to Zero of not types match, it returns an object with 0 transaction amount
+   *
+   * @param type: String
+   *
+   * @return ResponseEntity<Map>
+   */
   @GetMapping("/{type}/amount")
   public Object getTransactionAmountPerType(@PathVariable final String type) {
     Map<String, Object> map = new HashMap<>();

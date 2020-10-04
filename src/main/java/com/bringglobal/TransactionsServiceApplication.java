@@ -19,7 +19,7 @@ public class TransactionsServiceApplication {
     tomcat.getHost().setAppBase(appBase);
 
     // Set the service name here
-    tomcat.addWebapp("/v1/current-accounts/", appBase);
+    tomcat.addWebapp("/v1/current-accounts", appBase);
     tomcat.start();
     tomcat.getServer().await();
   }

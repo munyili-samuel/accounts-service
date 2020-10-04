@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
 
+import static com.bringglobal.utils.TestUtils.testTransaction;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -19,20 +20,6 @@ import static org.junit.Assert.assertTrue;
 public class RESTServiceTestCase {
 
   String url = "http://google.com";
-
-  private Transaction transaction = new Transaction(
-    "58aeed54-7042-456d-af86-f517bff5b7af",
-    "savings-kids-john",
-    "savings-kids-john",
-    "ALIAS_03C57D",
-    null,
-    8.6,
-    "GBP",
-    8.6,
-    "GBP",
-    "SEPA",
-    "This is a SEPA Transaction Request"
-  );
 
   @Mock
   private RestTemplate restTemplate;
@@ -46,12 +33,23 @@ public class RESTServiceTestCase {
       .when(restTemplate.getForObject(
         url, Object.class
       ))
-      .thenReturn(TestUtils.getPayloadAsObject());
+      .thenReturn(TestUtils.getPayloadAsObject("details"));
 
     Optional<List<Transaction>> transactions = restService.getTransactions(url);
 
     assertTrue(transactions.isPresent());
-    assertEquals(transactions.get().get(0), transaction);
+    assertEquals(transactions.get().get(0), testTransaction);
+  }
+
+  @Test(expected = Exception.class)
+  public void shouldThrowAnExceptionForUnexpectedResponse() throws Exception {
+    Mockito
+      .when(restTemplate.getForObject(
+        url, Object.class
+      ))
+      .thenReturn(TestUtils.getPayloadAsObject("detail"));
+
+    restService.getTransactions(url);
   }
 
 }
