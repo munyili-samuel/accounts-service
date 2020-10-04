@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/current-accounts")
 public class TransactionsController {
-
   private final RESTService restService;
   private static Map<String, String> map = new HashMap<>();
   static {
     map.put("error", "Unexpected response structure received from Open Bank Project");
   }
+
+  //TODO: This URL will be moved to application properties
   private final String url = "https://apisandbox.openbankproject.com/obp/v1.2.1/banks/rbs/accounts/savings-kids-john/public/transactions";
 
   public TransactionsController(RESTService restService) {
