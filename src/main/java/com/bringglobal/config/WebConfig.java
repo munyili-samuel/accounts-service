@@ -1,5 +1,6 @@
 package com.bringglobal.config;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.bringglobal")
 public class WebConfig {
+  private final Logger logger = Logger.getLogger(WebConfig.class);
 
   /**
    * Add a bean for RestTemplate to allow @Autowiring it
@@ -24,6 +26,7 @@ public class WebConfig {
    */
   @Bean
   public RestTemplate restTemplate() {
+    logger.info("Registering RestTemplate Bean");
     return new RestTemplate();
   }
 }

@@ -1,5 +1,6 @@
 package com.bringglobal.config;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -7,7 +8,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * This class replaces web.xml and it serves to initialize our DispatcherServlets.
  */
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-
+  private final Logger logger = Logger.getLogger(AppInitializer.class);
   /**
    * Sets roots configuration class
    *
@@ -37,6 +38,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
    */
   @Override
   protected String[] getServletMappings() {
+    logger.info("Setting servlet mappings");
     return new String[] {"/"};
   }
 }

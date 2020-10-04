@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import models.Transaction;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/transactions")
 public class TransactionsController {
+  private final static Logger logger = Logger.getLogger(TransactionsController.class);
   private final RESTService restService;
   private static Map<String, String> map = new HashMap<>();
   static {
@@ -34,7 +36,6 @@ public class TransactionsController {
 
   @GetMapping
   public Object getTransactions() {
-
     try {
       return restService.getTransactions(url).orElse(Collections.EMPTY_LIST);
     } catch (Exception e) {
@@ -52,6 +53,8 @@ public class TransactionsController {
    */
   @GetMapping("/{type}")
   public Object getTransactionsPerType(@PathVariable final String type) {
+    logger.info("Retrieving transactions of type " + type);
+
     List<Transaction> transactions;
     try {
       transactions = restService.getTransactions(url).orElse(Collections.EMPTY_LIST);

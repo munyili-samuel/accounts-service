@@ -1,6 +1,7 @@
 package com.bringglobal;
 
 import org.apache.catalina.startup.Tomcat;
+import org.apache.log4j.Logger;
 
 /**
  * Entry point.
@@ -11,6 +12,8 @@ import org.apache.catalina.startup.Tomcat;
  * <code><bold>Tip</bold></code>Using this method ensures that the app will be run using Maven or Java commands rather than Tomcat command
  */
 public class TransactionsServiceApplication {
+  private final static Logger logger = Logger.getLogger(TransactionsServiceApplication.class);
+
   public static void main(String[] args) throws Exception {
 
     // this is the default port
@@ -29,6 +32,7 @@ public class TransactionsServiceApplication {
     // Set the service name here
     tomcat.addWebapp("/v1/current-accounts", appBase);
     tomcat.start();
+    logger.info("Tomcat Server started on port " + targetPort);
     tomcat.getServer().await();
   }
 }

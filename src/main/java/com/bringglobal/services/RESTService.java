@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import models.Transaction;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @SuppressWarnings("unchecked")
 @Service
 public class RESTService {
+  private final static Logger logger = Logger.getLogger(RESTService.class);
 
   @Autowired
   private RestTemplate restTemplate;
@@ -23,7 +25,9 @@ public class RESTService {
    * @return transactions
    */
   public Optional<List<Transaction>> getTransactions(final String url) throws Exception {
+    logger.info("Sending get request to the OBP service");
     Object result = restTemplate.getForObject(url, Object.class);
+    logger.info("Received response from the OBP service");
 
     if (result instanceof Map) {
      try {
@@ -57,6 +61,7 @@ public class RESTService {
 
        return Optional.of(transactions);
      } catch (Exception e) {
+       logger.error("Error occurred while mapping response to model class");
        throw new Exception("Unexpected response structure received from Open Bank Project API");
      }
     }
