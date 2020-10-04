@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SuppressWarnings("unchecked")
 @RestController
-@RequestMapping("/current-accounts")
+@RequestMapping("/transactions")
 public class TransactionsController {
   private final RESTService restService;
   private static Map<String, String> map = new HashMap<>();
