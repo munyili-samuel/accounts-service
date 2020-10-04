@@ -22,14 +22,16 @@ The application runs on **embedded Tomcat 8.5 container.**
 **Note** the base route is `http:localhost:<PORT>/v1/current-accounts`
 
 ### Security
-**This approach is not secure and should not be used in production**
+----
+**⚠️ This approach is not secure and should not be used in production. It was only used for demo purposes** ⚠️  
+
 The application uses **Basic Authentication**. So the user will only need to pass username and password alongside the request.
 - If you are using **Insomnia** click on the `Auth` tab and select **Basic** provide username and password and that will be enough.
 - If you are using **Postman** click on the `Authorization` tab and select **Basic Auth** provide username and password and that will be enough.
 
 
 ### Endpoints
-`GET /transactions` Returns all transactions  
+`GET /transactions` Returns all transactions   
 **Sample response**
 ```
 [
@@ -51,7 +53,7 @@ The application uses **Basic Authentication**. So the user will only need to pas
       }
 ]
 ```
-`GET /transactions/{type}` Returns transactions by type `type` where type is the transaction type name
+`GET /transactions/{type}` Returns transactions by `type` where type is the transaction type name  
 **Sample response**
 ```
 [
@@ -73,7 +75,7 @@ The application uses **Basic Authentication**. So the user will only need to pas
       }
 ]
 ```
-`GET /transactions/{type}/amount` Returns total transaction amount for transactions by type `type` where type is the transaction type name
+`GET /transactions/{type}/amount` Returns total transaction amount for transactions by `type` where type is the transaction type name  
 **Sample response**
 ```
 {
