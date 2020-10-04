@@ -57,7 +57,6 @@ public class RESTService {
 
        return Optional.of(transactions);
      } catch (Exception e) {
-       e.printStackTrace();
        throw new Exception("Unexpected response structure received from Open Bank Project API");
      }
     }
